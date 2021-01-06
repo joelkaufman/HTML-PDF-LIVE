@@ -24,7 +24,7 @@ async function render(){
 
     var options = {
         method: 'POST',
-        host: 'localhost',
+        host: 'flying-saucer',
         port: 8080,
         path: '/service/convert/html/body',
         headers: {
@@ -69,16 +69,16 @@ async function render(){
 async function main(){
     
     const { exec } = require('child_process');
-    exec('docker run --rm -p 8080:8080 farrukhmpk/html-pdf-service', (err, stdout, stderr) => {
-        if (err) {
-            //some err occurred
-            console.error(err)
-        } else {
-        // the *entire* stdout and stderr (buffered)
-        console.log(`stdout: ${stdout}`);
-        console.log(`stderr: ${stderr}`);
-        }
-    });
+    // exec('docker run --rm -p 8080:8080 farrukhmpk/html-pdf-service', (err, stdout, stderr) => {
+    //     if (err) {
+    //         //some err occurred
+    //         console.error(err)
+    //     } else {
+    //     // the *entire* stdout and stderr (buffered)
+    //     console.log(`stdout: ${stdout}`);
+    //     console.log(`stderr: ${stderr}`);
+    //     }
+    // });
     watch(['src/*', '!src/file.pdf'], async function(cb) {
         console.log('changed');
         await render();
@@ -88,8 +88,9 @@ async function main(){
 
     browserSync.init({
         server: {
-            baseDir: "./src"
-        }
+            baseDir: "./src",
+        },
+        open:false
     });
 }
 main();

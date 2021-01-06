@@ -11,3 +11,6 @@ Live Preview for html to PDF conversion using the flying saucer library
 # Using
 after starting, make edits to your `src/page.html` and `src/page.css` or change any file under `src/`
 it will somatically convert the HTML into a PDF and the browser automatically be reloaded to see the preview `localhost:3000/index.html`
+
+### inserting images etc
+use `http://web:3000/<your image>`

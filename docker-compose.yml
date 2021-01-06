@@ -1,0 +1,14 @@
+services:
+  web:
+    build: .
+    ports:
+      - "3000:3000"
+      - "3001:3001"
+    volumes:
+      - .:/app
+  flying-saucer:
+    image: farrukhmpk/html-pdf-service
+    ports:
+      - "8080:8080"
+    links:
+      - web
