@@ -33,6 +33,7 @@ async function render(){
       };
 
     return new Promise((resolve, reject) => {
+        
         var request = http.request(options, function(response) { 
             var data = []; 
         
@@ -43,8 +44,6 @@ async function render(){
             response.on('end', function() { 
                 data = Buffer.concat(data); // do something with data 
 
-
-                // write to a new file named 2pac.txt
                 fs.writeFile('src/file.pdf', data, (err) => {
                     // throws an error, you could also catch it here
                     if (err) reject(err);
@@ -55,11 +54,16 @@ async function render(){
                 });
             }); 
         }); 
+ 
         request.write(JSON.stringify({
             html:html,
             css:css
         }));
         
+        request.on('error', function(err) { 
+            reject(err);
+        });
+    
         request.end();
     });
     
@@ -69,20 +73,15 @@ async function render(){
 async function main(){
     
     const { exec } = require('child_process');
-    // exec('docker run --rm -p 8080:8080 farrukhmpk/html-pdf-service', (err, stdout, stderr) => {
-    //     if (err) {
-    //         //some err occurred
-    //         console.error(err)
-    //     } else {
-    //     // the *entire* stdout and stderr (buffered)
-    //     console.log(`stdout: ${stdout}`);
-    //     console.log(`stderr: ${stderr}`);
-    //     }
-    // });
-    watch(['src/*', '!src/file.pdf'], async function(cb) {
+    
+    watch(['src/*', '!src/file.pdf'], async function(done) {
         console.log('changed');
-        await render();
-        cb();
+        try{
+            await render();
+        }catch(err){
+            console.log(err);
+        }
+        done();
         browserSync.reload();
     });
 
