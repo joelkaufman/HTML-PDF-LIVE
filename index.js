@@ -74,7 +74,7 @@ async function main(){
     
     const { exec } = require('child_process');
     
-    watch(['src/*', '!src/file.pdf'], async function(done) {
+    watch(['src/*', '!src/file.pdf'], {interval: 1000, usePolling: true}, async function(done) {
         console.log('changed');
         try{
             await render();
